@@ -10,12 +10,28 @@ public class HomeController : Controller
         _logger = logger;
     }
 
-    public IActionResult Index()
+    public IActionResult Index() //две анкора: создать или найти документ
     {
         return View();
     }
 
-    public IActionResult Privacy()
+    public IActionResult FindDocument()
+    {
+        return View();
+    }
+
+    public IActionResult DocumentInfo()
+    {
+        return View();
+    }
+
+    public IActionResult CreateDocument()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult CreateDocument111()
     {
         return View();
     }

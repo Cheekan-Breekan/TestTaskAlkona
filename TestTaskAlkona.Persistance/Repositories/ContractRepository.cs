@@ -19,7 +19,32 @@ public class ContractRepository : IContractRepository
 
     public async Task<List<Contract>> GetContractsByFilterSortPagingAsync(string searchFilter, string sortOrder, int page, int tablePageSize)
     {
+        var contractsQuery = _db.Contracts.AsQueryable();
 
-        return [];
+        ApplySearchFilter(contractsQuery, searchFilter);
+        ApplySorting(contractsQuery, sortOrder);
+
+        var contracts = await contractsQuery.Skip((page - 1) * tablePageSize).Take(tablePageSize).ToListAsync();
+
+        return contracts;
+    }
+
+    private static void ApplySorting(IQueryable<Contract> contractsQuery, string sortOrder)
+    {
+        contractsQuery = sortOrder switch
+        {
+            "number_desc" => contractsQuery.OrderByDescending(c => c.Number),
+            "date" => contractsQuery.OrderBy(c => c.Date),
+            "date_desc" => contractsQuery.OrderByDescending(c => c.Date),
+            _ => contractsQuery.OrderBy(c => c.Number)
+        };
+    }
+
+    private static void ApplySearchFilter(IQueryable<Contract> contractsQuery, string searchFilter)
+    {
+        if (!string.IsNullOrWhiteSpace(searchFilter))
+        {
+            contractsQuery = contractsQuery.Where(x => x.Number.Contains(searchFilter));
+        }
     }
 }

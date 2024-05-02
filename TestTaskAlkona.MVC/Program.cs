@@ -1,3 +1,7 @@
+using TestTaskAlkona.Application.Services;
+using TestTaskAlkona.Core.Interfaces;
+using TestTaskAlkona.Persistance.Repositories;
+
 internal class Program
 {
     private static void Main(string[] args)
@@ -6,6 +10,10 @@ internal class Program
 
         // Add services to the container.
         builder.Services.AddControllersWithViews();
+
+        //Добавляем зависимости в DI контейнер
+        builder.Services.AddScoped<IContractRepository, ContractRepository>();
+        builder.Services.AddScoped<IContractService, ContractService>();
 
         var app = builder.Build();
 

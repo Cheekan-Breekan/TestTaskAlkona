@@ -1,0 +1,36 @@
+﻿@model List<Contract>
+
+@{
+    string controllerName = ControllerExt.NameOf<HomeController>();
+    Pager pager = new Pager();
+    int page = 0;
+    if (ViewBag.Pager is not null)
+    {
+        pager = ViewBag.Pager;
+        page = pager.CurrentPage;
+        pager.CurrentSearchFilter = ViewBag.CurrentSearchFilter;
+        pager.CurrentSortOrder = ViewBag.CurrentSortOrder;
+    }
+}
+
+<h1>Договоры</h1>
+
+<table>
+    <thead>
+        <th>Номер</th>
+        <th>Дата заключения</th>
+    </thead>
+    <tbody>
+        @foreach (var contract in Model)
+        {
+            <tr>@contract.Number</tr>
+            <tr>@contract.Date</tr>
+            <tr>
+                <a asp-action="@nameof(HomeController.ContractInfo)" asp-route="@contract.Id">
+                    Подробнее
+                </a>
+            </tr>
+        }
+    </tbody>
+</table>
+<partial name="_PagerPartial" model="pager"></partial>

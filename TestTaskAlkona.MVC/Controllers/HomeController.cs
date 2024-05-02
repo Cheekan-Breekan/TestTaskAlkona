@@ -1,37 +1,63 @@
 using Microsoft.AspNetCore.Mvc;
+using TestTaskAlkona.Core.Interfaces;
+using TestTaskAlkona.MVC.Extensions;
+using TestTaskAlkona.MVC.Models;
 
 namespace TestTaskAlkona.MVC.Controllers;
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly IContractService _contractService;
+    private readonly int tablePageSize = 10;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(IContractService contractService)
     {
-        _logger = logger;
+        _contractService = contractService;
     }
 
-    public IActionResult Index() //две анкора: создать или найти документ
-    {
-        return View();
-    }
-
-    public IActionResult FindDocument()
+    public IActionResult Index()
     {
         return View();
     }
 
-    public IActionResult DocumentInfo()
+    public async Task<IActionResult> FindContract(string sortOrder, string searchFilter, string currentFilter, int page = 1)
+    {
+        ViewBag.CurrentSortOrder = sortOrder;
+        ViewBag.NameSortOrder = string.IsNullOrWhiteSpace(sortOrder) ? "number_desc" : string.Empty;
+        ViewBag.IsDeletedSortOrder = sortOrder == "date" ? "date_desc" : "date";
+
+        if (!string.IsNullOrWhiteSpace(searchFilter))
+        {
+            page = 1;
+        }
+        else
+        {
+            searchFilter = currentFilter;
+        }
+        ViewBag.CurrentSearchFilter = searchFilter;
+
+        var contractsCount = await _contractService.CountContractsAsync(searchFilter);
+        page = page < 1 ? 1 : page;
+        var pager = new Pager(contractsCount, page, ControllerExt.NameOf<HomeController>(), nameof(Index), tablePageSize);
+
+        ViewBag.Pager = pager;
+
+        var categories = await _contractService.GetContractsByFilterSortPagingAsync(searchFilter, sortOrder, page, tablePageSize);
+
+        return View();
+    }
+
+    public IActionResult ContractInfo()
     {
         return View();
     }
 
-    public IActionResult CreateDocument()
+    public IActionResult CreateContract()
     {
         return View();
     }
 
     [HttpPost]
-    public IActionResult CreateDocument111()
+    public IActionResult CreateContract111()
     {
         return View();
     }

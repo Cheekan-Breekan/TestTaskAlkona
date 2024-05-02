@@ -15,6 +15,14 @@
 
 <h1>Договоры</h1>
 
+<div class="filters">
+    <form method="get" asp-action="Index" asp-controller="@controllerName">
+        <input id="search-filter" placeholder="Поиск по названию..." name="searchFilter" value="@(ViewBag.CurrentSearchFilter as string)" />
+        <input name="sortOrder" value="@ViewBag.CurrentSortOrder" hidden />
+        <button class="details-btn" type="submit">Искать</button>
+    </form>
+</div>
+
 <table>
     <thead>
         <th>Номер</th>

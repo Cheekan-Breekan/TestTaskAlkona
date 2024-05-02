@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using TestTaskAlkona.Core.Entities;
 using TestTaskAlkona.Core.Interfaces;
 using TestTaskAlkona.MVC.Extensions;
 using TestTaskAlkona.MVC.Models;
@@ -41,23 +42,30 @@ public class HomeController : Controller
 
         ViewBag.Pager = pager;
 
-        var categories = await _contractService.GetContractsByFilterSortPagingAsync(searchFilter, sortOrder, page, tablePageSize);
+        var contracts = await _contractService.GetContractsByFilterSortPagingAsync(searchFilter, sortOrder, page, tablePageSize);
 
-        return View();
-    }
-
-    public IActionResult ContractInfo()
-    {
-        return View();
+        return View(contracts);
     }
 
     public IActionResult CreateContract()
     {
-        return View();
+        return View(new Contract());
     }
 
     [HttpPost]
-    public IActionResult CreateContract111()
+    public IActionResult CreateContract(Contract model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        var result = _contractService.CreateContract(model);
+
+        return RedirectToAction(nameof(FindContract));
+    }
+
+    public IActionResult ContractInfo()
     {
         return View();
     }

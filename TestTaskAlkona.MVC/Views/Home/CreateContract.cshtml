@@ -2,3 +2,16 @@
 @{
 }
 
+<h1>Заполнение договора</h1>
+
+<form asp-action="@nameof(HomeController.CreateContract)">
+    <div asp-validation-summary="All" class="text-danger fs-4"></div>
+    <div>
+        <label class="fs-5 m-0" asp-for="Number"></label>
+        <div>
+            <span asp-validation-for="Number" class="text-danger"></span>
+        </div>
+        <input class="box" asp-for="Number" />
+    </div>
+    <button type="submit" class="btn mb-4">Отправить</button>
+</form>

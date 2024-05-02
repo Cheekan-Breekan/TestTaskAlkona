@@ -1,5 +1,7 @@
+using Microsoft.EntityFrameworkCore;
 using TestTaskAlkona.Application.Services;
 using TestTaskAlkona.Core.Interfaces;
+using TestTaskAlkona.Persistance;
 using TestTaskAlkona.Persistance.Repositories;
 
 internal class Program
@@ -14,6 +16,12 @@ internal class Program
         //Добавляем зависимости в DI контейнер
         builder.Services.AddScoped<IContractRepository, ContractRepository>();
         builder.Services.AddScoped<IContractService, ContractService>();
+
+        var connectionString = builder.Configuration.GetConnectionString("Default");
+        builder.Services.AddDbContext<AppDbContext>(opts =>
+        {
+            opts.UseNpgsql(connectionString);
+        });
 
         var app = builder.Build();
 

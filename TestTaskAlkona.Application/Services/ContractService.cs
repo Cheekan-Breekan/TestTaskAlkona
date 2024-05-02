@@ -20,4 +20,9 @@ public class ContractService : IContractService
     {
         return await _repo.GetContractsByFilterSortPagingAsync(searchFilter, sortOrder, page, tablePageSize);
     }
+
+    public async Task<bool> CreateContract(Contract contract)
+    {
+        return await _repo.CreateContract(contract);
+    }
 }

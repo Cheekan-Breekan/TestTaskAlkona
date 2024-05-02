@@ -17,6 +17,13 @@ public class ContractRepository : IContractRepository
         return await _db.Contracts.CountAsync();
     }
 
+    public async Task<bool> CreateContract(Contract contract)
+    {
+        await _db.Contracts.AddAsync(contract);
+
+        return await _db.SaveChangesAsync() > 0;
+    }
+
     public async Task<List<Contract>> GetContractsByFilterSortPagingAsync(string searchFilter, string sortOrder, int page, int tablePageSize)
     {
         var contractsQuery = _db.Contracts.AsQueryable();

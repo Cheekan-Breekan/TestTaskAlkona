@@ -1,0 +1,38 @@
+﻿@model Contract
+@{
+}
+
+<h1>Информация о контракте</h1>
+
+<div>
+    <h4>Номер контракта: @Model.Number</h4>
+    <h4>Дата заключения: @Model.Date</h4>
+    <button id="calculateSum" type="button">Высчитать сумму</button>
+    <span id="sumPlaceholder" style="display:none;"></span>
+    @foreach (var contractItem in Model.ContractItems)
+    {
+        <div>@contractItem.Name</div>
+        <div>@contractItem.Price</div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#calculateSum').click(function () {
+                $.ajax({
+                    url: '@Url.Action("GetContractSum", "Home")',
+                    type: 'GET',
+                    data: { contractId: @Model.Id },
+                    success: function (sum) {
+                        $('#sumPlaceholder').text('Sum: ' + sum).show();
+                        $('#calculateSum').remove();
+                    },
+                    error: function () {
+                        console.error('Error occurred while fetching contract sum.');
+                    }
+                });
+            });
+        });
+    </script>
+}

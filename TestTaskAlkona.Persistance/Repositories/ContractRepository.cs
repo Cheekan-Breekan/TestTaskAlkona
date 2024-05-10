@@ -1,6 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TestTaskAlkona.Core.Entities;
 using TestTaskAlkona.Core.Interfaces;
+using System.Data;
+using System.Data.SqlClient;
+using NpgsqlTypes;
+using Npgsql;
 
 namespace TestTaskAlkona.Persistance.Repositories;
 public class ContractRepository : IContractRepository
@@ -34,6 +38,23 @@ public class ContractRepository : IContractRepository
         var contracts = await contractsQuery.Skip((page - 1) * tablePageSize).Take(tablePageSize).ToListAsync();
 
         return contracts;
+    }
+
+    public async Task<Contract> GetContractByIdAsync(int contractId)
+    {
+        return await _db.Contracts.Include(c => c.ContractItems).FirstAsync(x => x.Id == contractId);
+    }
+
+    public async Task<decimal> GetContractSumByIdAsync(int contractId)
+    {
+        //decimal totalPrice = 0;
+        //var sqlParameter = new NpgsqlParameter("@contract_id", NpgsqlDbType.Integer)
+        //{
+        //    Value = contractId
+        //};
+        //var t = _db.Database.SqlQueryRaw<decimal>("SELECT GetContractSumById(@contract_id)", sqlParameter).FirstOrDefault();
+        //return t;
+        return 0;
     }
 
     private static void ApplySorting(IQueryable<Contract> contractsQuery, string sortOrder)

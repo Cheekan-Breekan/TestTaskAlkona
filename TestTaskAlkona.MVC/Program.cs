@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using TestTaskAlkona.Application.Services;
 using TestTaskAlkona.Core.Interfaces;
+using TestTaskAlkona.MVC.Filters;
 using TestTaskAlkona.Persistance;
 using TestTaskAlkona.Persistance.Repositories;
 
@@ -11,11 +12,15 @@ internal class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        builder.Services.AddControllersWithViews();
+        builder.Services.AddControllersWithViews(opts =>
+        {
+            opts.Filters.Add<GlobalExceptionFilter>();
+        });
 
         //Добавляем зависимости в DI контейнер
         builder.Services.AddScoped<IContractRepository, ContractRepository>();
         builder.Services.AddScoped<IContractService, ContractService>();
+
 
         var connectionString = builder.Configuration.GetConnectionString("Default");
         builder.Services.AddDbContext<AppDbContext>(opts =>
@@ -26,12 +31,12 @@ internal class Program
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
-        if (!app.Environment.IsDevelopment())
-        {
-            app.UseExceptionHandler("/Home/Error");
-            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-            app.UseHsts();
-        }
+        //if (!app.Environment.IsDevelopment())
+        //{
+        //    app.UseExceptionHandler("/Home/Error");
+        //    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+        //    app.UseHsts();
+        //}
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();

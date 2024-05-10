@@ -25,4 +25,14 @@ public class ContractService : IContractService
     {
         return await _repo.CreateContract(contract);
     }
+
+    public async Task<Contract> GetContractByIdAsync(int contractId)
+    {
+        return await _repo.GetContractByIdAsync(contractId);
+    }
+
+    public async Task<decimal> GetContractSumByIdAsync(int contractId)
+    {
+        return await _repo.GetContractSumByIdAsync(contractId);
+    }
 }

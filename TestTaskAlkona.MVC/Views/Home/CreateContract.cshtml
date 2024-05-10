@@ -1,5 +1,6 @@
-﻿@model Contract
+﻿@model CreateContractViewModel
 @{
+    Model.Items.Add(new CreateContractItemsViewModel());
 }
 
 <h1>Заполнение договора</h1>
@@ -13,5 +14,19 @@
         </div>
         <input class="box" asp-for="Number" />
     </div>
+    <div id="contractItems">
+        <div class="contractItem">
+            <label for="itemName">Name:</label>
+            <input asp-for="Items[0].Name" />
+            <label for="itemPrice">Price:</label>
+            <input asp-for="Items[0].Price" />
+        </div>
+    </div>
+    <button type="button" id="addContractItem">Добавить еще</button>
     <button type="submit" class="btn mb-4">Отправить</button>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/addnewcontractitem.js"></script>
+}

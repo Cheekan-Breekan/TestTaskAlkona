@@ -1,1 +1,11 @@
-﻿
+﻿@model ProblemDetails
+@{
+}
+
+<div class="error-page">
+    <div class="error-page-messages">
+        <h1>Ошибка @Model.Status</h1>
+        <h2>@Model.Title</h2>
+        <h2>@Model.Detail</h2>
+    </div>
+</div>

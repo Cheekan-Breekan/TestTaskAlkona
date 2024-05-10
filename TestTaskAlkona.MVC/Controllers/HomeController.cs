@@ -49,25 +49,41 @@ public class HomeController : Controller
 
     public IActionResult CreateContract()
     {
-        return View(new Contract());
+        return View(new CreateContractViewModel());
     }
 
     [HttpPost]
-    public IActionResult CreateContract(Contract model)
+    public async Task<IActionResult> CreateContract(CreateContractViewModel model)
     {
         if (!ModelState.IsValid)
         {
             return View(model);
         }
 
-        var result = _contractService.CreateContract(model);
+        var contract = new Contract
+        {
+            Number = model.Number,
+            Date = DateTime.UtcNow,
+            ContractItems = model.Items.Select(i => new ContractItem { Name = i.Name, Price = i.Price }).ToList()
+        };
+
+        var result = await _contractService.CreateContract(contract);
 
         return RedirectToAction(nameof(FindContract));
     }
 
-    public IActionResult ContractInfo()
+    public async Task<IActionResult> ContractInfo(int contractId)
     {
-        return View();
+        var contract = await _contractService.GetContractByIdAsync(contractId);
+
+        return View(contract);
+    }
+
+    public async Task<IActionResult> GetContractSum(int contractId)
+    {
+        //var sum = await _contractService.GetContractSumByIdAsync(contractId);
+
+        return Ok(13); //
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

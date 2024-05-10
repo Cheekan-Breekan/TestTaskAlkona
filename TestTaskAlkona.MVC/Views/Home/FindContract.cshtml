@@ -25,18 +25,22 @@
 
 <table>
     <thead>
-        <th>Номер</th>
-        <th>Дата заключения</th>
+        <tr>
+            <th>Номер</th>
+            <th>Дата заключения</th>
+        </tr>
     </thead>
     <tbody>
         @foreach (var contract in Model)
         {
-            <tr>@contract.Number</tr>
-            <tr>@contract.Date</tr>
             <tr>
-                <a asp-action="@nameof(HomeController.ContractInfo)" asp-route="@contract.Id">
-                    Подробнее
-                </a>
+                <td>@contract.Number</td>
+                <td>@contract.Date</td>
+                <td>
+                    <a asp-action="@nameof(HomeController.ContractInfo)" asp-route-contractId="@contract.Id">
+                        Подробнее
+                    </a>
+                </td>
             </tr>
         }
     </tbody>

@@ -20,3 +20,33 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.error-page {
+    min-height: 100vh;
+    background: url(../images/error.jpg);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.error-page-messages {
+    background-color: rgba(0, 0, 0, .6);
+    color: #fff;
+    -webkit-text-stroke: 0.5px rgba(0, 0, 0, .6);
+    border-radius: 5rem;
+    padding: 2rem;
+}
+
+.error-page h1 {
+    font-size: 5rem;
+    font-weight: bold;
+    margin: 3rem;
+}
+
+.error-page h2 {
+    font-size: 2.5rem;
+    margin: 1.5rem;
+}

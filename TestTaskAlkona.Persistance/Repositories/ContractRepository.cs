@@ -32,8 +32,8 @@ public class ContractRepository : IContractRepository
     {
         var contractsQuery = _db.Contracts.AsQueryable();
 
-        ApplySearchFilter(contractsQuery, searchFilter);
-        ApplySorting(contractsQuery, sortOrder);
+        contractsQuery = ApplySearchFilter(contractsQuery, searchFilter);
+        contractsQuery = ApplySorting(contractsQuery, sortOrder);
 
         var contracts = await contractsQuery.Skip((page - 1) * tablePageSize).Take(tablePageSize).ToListAsync();
 
@@ -57,9 +57,9 @@ public class ContractRepository : IContractRepository
         return Convert.ToDecimal(result);
     }
 
-    private static void ApplySorting(IQueryable<Contract> contractsQuery, string sortOrder)
+    private static IQueryable<Contract> ApplySorting(IQueryable<Contract> contractsQuery, string sortOrder)
     {
-        contractsQuery = sortOrder switch
+        return sortOrder switch
         {
             "number_desc" => contractsQuery.OrderByDescending(c => c.Number),
             "date" => contractsQuery.OrderBy(c => c.Date),
@@ -68,11 +68,12 @@ public class ContractRepository : IContractRepository
         };
     }
 
-    private static void ApplySearchFilter(IQueryable<Contract> contractsQuery, string searchFilter)
+    private static IQueryable<Contract> ApplySearchFilter(IQueryable<Contract> contractsQuery, string searchFilter)
     {
         if (!string.IsNullOrWhiteSpace(searchFilter))
         {
-            contractsQuery = contractsQuery.Where(x => x.Number.Contains(searchFilter));
+            return contractsQuery.Where(x => x.Number.Contains(searchFilter));
         }
+        return contractsQuery;
     }
 }

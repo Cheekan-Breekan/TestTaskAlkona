@@ -31,8 +31,14 @@
     <table class="editor-table">
         <thead>
             <tr>
-                <th>Номер</th>
-                <th>Дата заключения</th>
+                <th>
+                    <a asp-action="@nameof(HomeController.Index)"
+                       asp-route-sortOrder="@ViewBag.NumberSortOrder" asp-route-currentFilter="@ViewBag.CurrentSearchFilter">Номер</a>
+                </th>
+                <th>
+                    <a asp-action="@nameof(HomeController.Index)"
+                       asp-route-sortOrder="@ViewBag.IsDeletedSortOrder" asp-route-currentFilter="@ViewBag.CurrentSearchFilter">Дата заключения</a>
+                </th>
                 <th>Действия</th>
             </tr>
         </thead>

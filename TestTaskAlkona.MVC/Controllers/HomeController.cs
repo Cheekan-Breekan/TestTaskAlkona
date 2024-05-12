@@ -18,7 +18,7 @@ public class HomeController : Controller
     public async Task<IActionResult> Index(string sortOrder, string searchFilter, string currentFilter, int page = 1)
     {
         ViewBag.CurrentSortOrder = sortOrder;
-        ViewBag.NameSortOrder = string.IsNullOrWhiteSpace(sortOrder) ? "number_desc" : string.Empty;
+        ViewBag.NumberSortOrder = string.IsNullOrWhiteSpace(sortOrder) ? "number_desc" : string.Empty;
         ViewBag.IsDeletedSortOrder = sortOrder == "date" ? "date_desc" : "date";
 
         if (!string.IsNullOrWhiteSpace(searchFilter))

@@ -11,13 +11,11 @@ internal class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
         builder.Services.AddControllersWithViews(opts =>
         {
             opts.Filters.Add<GlobalExceptionFilter>();
         });
 
-        //Добавляем зависимости в DI контейнер
         builder.Services.AddScoped<IContractRepository, ContractRepository>();
         builder.Services.AddScoped<IContractService, ContractService>();
 
@@ -28,17 +26,26 @@ internal class Program
             opts.UseNpgsql(connectionString);
         });
 
+        builder.Services.AddProblemDetails();
+
         var app = builder.Build();
 
-        // Configure the HTTP request pipeline.
-        //if (!app.Environment.IsDevelopment())
-        //{
-        //    app.UseExceptionHandler("/Home/Error");
-        //    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-        //    app.UseHsts();
-        //}
+        app.UseStatusCodePages(async context =>
+        {
+            var request = context.HttpContext.Request;
+            var response = context.HttpContext.Response;
 
-        app.UseHttpsRedirection();
+            if (request.Headers.XRequestedWith == "XMLHttpRequest")
+            {
+                response.ContentType = "application/json";
+                await response.WriteAsync("{\"status\": " + (int)context.HttpContext.Response.StatusCode + "}");
+            }
+            else
+            {
+                context.HttpContext.Response.Redirect("/Error/");
+            }
+        });
+
         app.UseStaticFiles();
 
         app.UseRouting();

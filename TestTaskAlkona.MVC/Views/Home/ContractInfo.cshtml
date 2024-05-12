@@ -2,37 +2,49 @@
 @{
 }
 
-<h1>Информация о контракте</h1>
+<h1 class="heading">Информация о контракте</h1>
 
-<div>
-    <h4>Номер контракта: @Model.Number</h4>
-    <h4>Дата заключения: @Model.Date</h4>
-    <button id="calculateSum" type="button">Высчитать сумму</button>
-    <span id="sumPlaceholder" style="display:none;"></span>
-    @foreach (var contractItem in Model.ContractItems)
-    {
-        <div>@contractItem.Name</div>
-        <div>@contractItem.Price</div>
-    }
+<div class="lone-field-page m-0">
+    <div>
+        <h4>Номер контракта: @Model.Number</h4>
+        <h4>Дата заключения: @Model.Date</h4>
+    </div>
+    <button class="mt-3 details-btn" id="calculateSum" type="button">Высчитать сумму</button>
+    <span class="mt-3 fs-4" id="sumPlaceholder" style="display:none;"></span>
+    <table class="editor-table mt-4">
+        <thead>
+            <tr>
+                <th>Наименование услуги</th>
+                <th>Цена</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var contractItem in Model.ContractItems)
+            {
+                <tr>
+                    <td>@contractItem.Name</td>
+                    <td>@contractItem.Price</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 
-@section Scripts {
-    <script>
-        $(document).ready(function () {
-            $('#calculateSum').click(function () {
-                $.ajax({
-                    url: '@Url.Action("GetContractSum", "Home")',
-                    type: 'GET',
-                    data: { contractId: @Model.Id },
-                    success: function (sum) {
-                        $('#sumPlaceholder').text('Sum: ' + sum).show();
-                        $('#calculateSum').remove();
-                    },
-                    error: function () {
-                        console.error('Error occurred while fetching contract sum.');
-                    }
-                });
+<script>
+    $(() => {
+        $('#calculateSum').click(function () {
+            $.ajax({
+                url: '@Url.Action("GetContractSum", "Home")',
+                type: 'GET',
+                data: { contractId: @Model.Id },
+                success: function (sum) {
+                    $('#sumPlaceholder').text('Общая цена платных услуг: ' + sum).show();
+                    $('#calculateSum').remove();
+                },
+                error: function () {
+                    console.error('Ошибка при выполнении запроса на вычисление суммы.');
+                }
             });
         });
-    </script>
-}
+    })
+</script>

@@ -1,3 +1,7 @@
+:root {
+    --pink: #e84393;
+}
+
 html {
   font-size: 14px;
 }
@@ -20,6 +24,33 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+a {
+    text-decoration: none;
+}
+
+.heading {
+    text-align: center;
+    font-size: 4rem;
+    color: #333;
+    padding: 1rem;
+    margin: 2rem;
+}
+
+.btn {
+    display: inline-block;
+    margin-top: 1rem;
+    border-radius: 5rem;
+    background: #333;
+    color: #fff;
+    padding: .9rem 3.5rem;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+    .btn:hover {
+        background: var(--pink);
+    }
 
 .error-page {
     min-height: 100vh;
@@ -50,3 +81,124 @@ body {
     font-size: 2.5rem;
     margin: 1.5rem;
 }
+
+.editor {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 5rem;
+    overflow-x: auto;
+}
+
+.editor-add-btn {
+    margin: 2rem;
+    display: flex;
+    align-items: center;
+}
+
+    .editor-add-btn span {
+        margin-right: 1rem;
+        font-size: 1.2rem;
+    }
+
+.editor .filters {
+    margin: 1rem;
+    font-size: 1.2rem;
+}
+
+    .editor .filters #search-filter {
+        color: #333;
+        text-transform: none;
+        border: .1rem solid rgba(0, 0, 0, .1);
+        border-radius: .5rem;
+        margin: .7rem 0;
+    }
+
+        .editor .filters #search-filter:focus {
+            border-color: var(--pink);
+        }
+
+.details-btn {
+    border: 1px solid black;
+    padding: 0 1rem;
+    border-radius: 1rem;
+    background-color: rgba(211, 211, 211, .5);
+    color: black;
+}
+
+    .details-btn:hover {
+        color: black;
+    }
+
+.editor .select-filter {
+    margin: .5rem 0;
+    border-radius: .5rem;
+    font-size: 1.3rem;
+}
+
+.editor-table {
+    margin-top: .5rem;
+    width: 100%;
+    border: none;
+    margin-bottom: 20px;
+}
+
+    .editor-table thead th {
+        font-weight: bold;
+        text-align: left;
+        border: none;
+        padding: 10px 15px;
+        background: #d8d8d8;
+        font-size: 14px;
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+    }
+
+    .editor-table tbody td {
+        text-align: left;
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        padding: 10px 15px;
+        font-size: 14px;
+        vertical-align: top;
+    }
+
+    .editor-table thead tr th:first-child, .editor-table tbody tr td:first-child {
+        border-left: none;
+    }
+
+    .editor-table thead tr th:last-child, .editor-table tbody tr td:last-child {
+        border-right: none;
+    }
+
+    .editor-table tbody tr:nth-child(even) {
+        background: #f3f3f3;
+    }
+
+.lone-field-page {
+    display: block;
+    margin-top: 25rem;
+    margin-bottom: 25rem;
+    text-align: center;
+}
+
+    .lone-field-page form .box {
+        padding: 1rem;
+        font-size: 2.2rem;
+        color: #333;
+        text-transform: none;
+        border: .1rem solid rgba(0,0,0,.1);
+        border-radius: 2rem;
+        margin: 1rem;
+        width: 50%;
+        text-align: center;
+    }
+
+    .lone-field-page form .box:focus {
+        border-color: var(--pink);
+    }
+
+    .lone-field-page .message {
+        margin-bottom: 5rem;
+    }

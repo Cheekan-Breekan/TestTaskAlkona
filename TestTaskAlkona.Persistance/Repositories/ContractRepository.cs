@@ -47,14 +47,14 @@ public class ContractRepository : IContractRepository
 
     public async Task<decimal> GetContractSumByIdAsync(int contractId)
     {
-        //decimal totalPrice = 0;
-        //var sqlParameter = new NpgsqlParameter("@contract_id", NpgsqlDbType.Integer)
-        //{
-        //    Value = contractId
-        //};
-        //var t = _db.Database.SqlQueryRaw<decimal>("SELECT GetContractSumById(@contract_id)", sqlParameter).FirstOrDefault();
-        //return t;
-        return 0;
+        await _db.Database.OpenConnectionAsync();
+        using var connection = _db.Database.GetDbConnection();
+        var command = connection.CreateCommand();
+        command.CommandText = "SELECT GetContractSumById(@contract_id)";
+        command.Parameters.Add(new NpgsqlParameter("@contract_id", contractId));
+        var result = await command.ExecuteScalarAsync();
+        await _db.Database.CloseConnectionAsync();
+        return Convert.ToDecimal(result);
     }
 
     private static void ApplySorting(IQueryable<Contract> contractsQuery, string sortOrder)

@@ -15,12 +15,7 @@ public class HomeController : Controller
         _contractService = contractService;
     }
 
-    public IActionResult Index()
-    {
-        return View();
-    }
-
-    public async Task<IActionResult> FindContract(string sortOrder, string searchFilter, string currentFilter, int page = 1)
+    public async Task<IActionResult> Index(string sortOrder, string searchFilter, string currentFilter, int page = 1)
     {
         ViewBag.CurrentSortOrder = sortOrder;
         ViewBag.NameSortOrder = string.IsNullOrWhiteSpace(sortOrder) ? "number_desc" : string.Empty;
@@ -69,7 +64,7 @@ public class HomeController : Controller
 
         var result = await _contractService.CreateContract(contract);
 
-        return RedirectToAction(nameof(FindContract));
+        return RedirectToAction(nameof(Index));
     }
 
     public async Task<IActionResult> ContractInfo(int contractId)
@@ -81,14 +76,8 @@ public class HomeController : Controller
 
     public async Task<IActionResult> GetContractSum(int contractId)
     {
-        //var sum = await _contractService.GetContractSumByIdAsync(contractId);
+        var sum = await _contractService.GetContractSumByIdAsync(contractId);
 
-        return Ok(13); //
-    }
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View();
+        return Ok(sum);
     }
 }
